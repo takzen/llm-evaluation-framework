@@ -2,7 +2,7 @@
 
 ### An interactive, enterprise-grade framework for evaluating, red-teaming, and benchmarking Large Language Models (LLMs), featuring automated test set generation, multi-metric AI-powered judging, and advanced data visualization.
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0+-orange?logo=streamlit&logoColor=white) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-blue?logo=google&logoColor=white) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0-orange?logo=streamlit&logoColor=white) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-blue?logo=google&logoColor=white) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ---
 
@@ -230,7 +230,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **Author**: [Your Name]
+- **Author**: Krzysztof Pika
 - **GitHub**: [@takzen](https://github.com/takzen)
 - **Issues**: [Report bugs or request features](https://github.com/takzen/llm-evaluation-framework/issues)
 
