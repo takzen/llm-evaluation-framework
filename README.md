@@ -2,7 +2,7 @@
 
 ### An interactive, enterprise-grade framework for evaluating, red-teaming, and benchmarking Large Language Models (LLMs), featuring automated test set generation, multi-metric AI-powered judging, and advanced data visualization.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0-orange?logo=streamlit) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.0-blue?logo=google-gemini) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0-orange?logo=streamlit) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5-blue?logo=google-gemini) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly)
 
 ## 🚀 Overview
 
@@ -12,10 +12,10 @@ The framework automates the entire evaluation pipeline, from generating high-qua
 
 ## ✨ Key Features & Techniques
 
-*   **Meta-AI (AI-Powered Judging):** Implements a state-of-the-art evaluation strategy where a powerful "judge" LLM (`Gemini 2.0 Flash`) quantitatively scores the responses of other models. This demonstrates a deep understanding of modern LLM evaluation techniques.
+*   **Meta-AI (AI-Powered Judging):** Implements a state-of-the-art evaluation strategy where a powerful "judge" LLM (`Gemini 2.5 Pro`) quantitatively scores the responses of other models. This demonstrates a deep understanding of modern LLM evaluation techniques.
 *   **Multi-Metric Evaluation:** The AI judge assesses responses across four critical dimensions: **Factual Consistency, Helpfulness, Relevance, and Completeness**, providing a nuanced and comprehensive view of model quality.
 *   **Automated Test Set Generation:** Users can provide any text-based context, and the application uses a powerful LLM to automatically generate a relevant and diverse set of questions and ground-truth answers for testing.
-*   **Model & Prompt Benchmarking:** The interface allows users to select from multiple available models (e.g., `Gemini 1.5 Pro`, `Gemini 1.0 Pro`) and customize the system prompt, enabling direct, A/B testing of different configurations.
+*   **Model & Prompt Benchmarking:** The interface allows users to select from multiple available models (e.g., `Gemini 2.0 Pro`, `Gemini 2.0 Flash`) and customize the system prompt, enabling direct, A/B testing of different configurations.
 *   **Advanced Data Visualization:** The dashboard presents evaluation results using sophisticated **Plotly** visualizations, including:
     *   A **Radar Chart** for a high-level overview of a model's strengths and weaknesses across all metrics.
     *   **Grouped Bar Charts** for a detailed, per-question breakdown of scores.
@@ -55,7 +55,14 @@ The framework automates the entire evaluation pipeline, from generating high-qua
 
 ## 🖼️ Application Showcase
 
-| 1. Configuration and Test Set Generation | 2. Comprehensive Evaluation Dashboard |
+The application provides a seamless, step-by-step workflow for comprehensive LLM evaluation.
+
+| **Step 1: Initial State** | **Step 2: Test Set Generation** |
 | :---: | :---: |
-| *(Image of the full Streamlit app, showing the sidebar with model selection and context input, and the main area with the generated test set table)* | *(Image of the final results dashboard, highlighting the radar chart, the summary metrics, and the detailed results table below)* |
-| *The user selects a model to test, provides a context, and generates a custom evaluation set.* | *The app displays a rich dashboard with average scores, a radar chart for a visual summary, and a detailed breakdown of the AI judge's scores for each question.* |
+| ![Initial State](images/01_initial_state.png) | ![Test Set Generation](images/02_test_set_generation.png) |
+| *The user is presented with a clean interface, ready for configuration in the sidebar.* | *After providing a context and selecting parameters, a high-quality test set is automatically generated.* |
+
+| **Step 3: High-Level Evaluation Dashboard** | **Step 4: Detailed Results & Export** |
+| :---: | :---: |
+| ![Evaluation Dashboard](images/03_evaluation_dashboard.png) | ![Detailed Results and Export](images/04_detailed_results_and_export.png) |
+| *Upon running the evaluation, the app displays a dashboard with summary metrics and interactive visualizations like a radar chart for a quick overview of model performance.* | *The user can drill down into a detailed table with per-question scores and the AI judge's reasoning, and export the full results as a CSV or JSON file.* |

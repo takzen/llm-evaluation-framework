@@ -31,13 +31,14 @@ except Exception as e:
 
 # --- Constants ---
 AVAILABLE_MODELS = {
+    "Gemini 2.5 Pro": "gemini-2.5-pro",
     "Gemini 2.0 Flash (Latest)": "gemini-2.0-flash-exp",
     "Gemini 1.5 Pro": "gemini-1.5-pro-latest",
     "Gemini 1.5 Flash": "gemini-1.5-flash-latest",
     "Gemini 1.0 Pro": "gemini-1.0-pro"
 }
 
-JUDGE_MODEL = "gemini-2.0-flash-exp"  # Latest model as judge
+JUDGE_MODEL = "gemini-2.5-pro"  # Latest model as judge
 
 # --- Helper Functions ---
 def safe_api_call(func, *args, **kwargs):
@@ -45,7 +46,7 @@ def safe_api_call(func, *args, **kwargs):
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            time.sleep(0.5)  # Rate limiting
+            time.sleep(7)  # Rate limiting
             return func(*args, **kwargs)
         except Exception as e:
             if attempt < max_retries - 1:
@@ -265,7 +266,7 @@ if 'eval_set' in st.session_state and st.session_state.eval_set:
         )
     
     with col2:
-        st.info(f"**Testing:** {selected_model_name}\n\n**Judge:** Gemini 2.0 Flash")
+        st.info(f"**Testing:** {selected_model_name}\n\n**Judge:** Gemini 2.5 Pro")
     
     if st.button("🚀 Run Evaluation & Get AI Judgment", type="primary", use_container_width=True):
         progress_bar = st.progress(0, text="Starting evaluation...")
