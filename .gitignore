@@ -1,39 +1,14 @@
 # Virtual Environment
 .venv/
 venv/
-ENV/
-env/
+
+# Environment variables
 .env
 
-# Python cache files
+# Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# IDE and editor configuration files
+# IDE configuration
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Operating System generated files
-.DS_Store
-Thumbs.db
-
-# Streamlit specific
-.streamlit/
-
-# Log files and temporary files
-*.log
-*.tmp```
-
-data/
-
-
