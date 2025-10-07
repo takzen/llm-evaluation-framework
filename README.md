@@ -2,7 +2,7 @@
 
 ### An interactive, enterprise-grade framework for evaluating, red-teaming, and benchmarking Large Language Models (LLMs), featuring automated test set generation, multi-metric AI-powered judging, and advanced data visualization.
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0-orange?logo=streamlit&logoColor=white) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-blue?logo=google&logoColor=white) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-1.50.0+-orange?logo=streamlit&logoColor=white) ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Pro-blue?logo=google&logoColor=white) ![Plotly](https://img.shields.io/badge/Plotly-6.3.1-blue?logo=plotly&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ---
 
@@ -60,12 +60,21 @@ The dashboard presents evaluation results using sophisticated **Plotly** visuali
 - **User Experience**: Clean UI with spinners, progress bars, and clear feedback
 - **Caching**: Intelligent caching to reduce API calls and improve performance
 
+### 💰 Real-Time Cost Tracking
+Monitor your API spending with comprehensive cost tracking:
+- **Live Token Counting**: Track input/output tokens for every API call
+- **Cost Calculation**: Automatic cost computation based on Gemini pricing
+- **Cost Estimation**: Preview estimated costs before running evaluations
+- **Session Analytics**: Monitor API calls, session duration, and total spending
+- **Export Integration**: Include cost data in CSV/JSON exports for budgeting
+
 ### 💾 Data Export
 Download detailed evaluation results as **CSV** or **JSON** for:
 - Statistical analysis in Python/R
 - Reporting and presentations
 - Long-term performance tracking
 - Integration with BI tools
+- Cost analysis and budget optimization
 
 ---
 
@@ -189,21 +198,15 @@ plotly>=5.18.0
 
 ## 🗺️ Roadmap
 
-### 🚀 Coming Soon
-- [ ] **Cost Tracking** - Monitor API usage and expenses
-- [ ] **A/B Testing Mode** - Compare multiple prompts side-by-side
-- [ ] **Historical Tracking** - Save and compare evaluation results over time
-
-### 💡 Planned Features
-- [ ] **Custom Metrics** - Define your own evaluation criteria
-- [ ] **Batch Processing** - Faster evaluation with parallel API calls
-- [ ] **Export Enhancements** - Excel format and detailed metadata
-- [ ] **Multi-Model Comparison** - Evaluate multiple models simultaneously
-
-### 🔮 Future Ideas
-- [ ] **Adversarial Testing** - Automatic generation of edge cases
-- [ ] **Report Generation** - Automated PDF reports with findings
-- [ ] **Team Collaboration** - Multi-user evaluation sessions
+### Planned Features
+- [ ] **A/B Testing Mode**: Compare multiple prompts side-by-side
+- [ ] **Historical Tracking**: SQLite database for evaluation history
+- [ ] **Custom Metrics**: User-defined evaluation criteria
+- [ ] **Batch Processing**: Parallel API calls for faster evaluation
+- [x] **Cost Tracking**: Monitor API usage and expenses
+- [ ] **Adversarial Testing**: Automatic generation of edge cases
+- [ ] **Multi-Model Comparison**: Evaluate multiple models simultaneously
+- [ ] **Report Generation**: Automated PDF reports with findings
 
 ---
 
@@ -236,7 +239,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **Author**: Krzysztof Pika
+- **Author**: [Your Name]
 - **GitHub**: [@takzen](https://github.com/takzen)
 - **Issues**: [Report bugs or request features](https://github.com/takzen/llm-evaluation-framework/issues)
 
