@@ -7,6 +7,7 @@ import time
 from dotenv import load_dotenv
 import plotly.express as px
 import plotly.graph_objects as go
+from datetime import datetime
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -38,7 +39,82 @@ AVAILABLE_MODELS = {
     "Gemini 1.0 Pro": "gemini-1.0-pro"
 }
 
-JUDGE_MODEL = "gemini-2.5-pro"  # Latest model as judge
+JUDGE_MODEL = "gemini-2.5-pro"
+
+# Pricing per 1M tokens (in USD)
+MODEL_PRICING = {
+    "gemini-2.5-pro": {"input": 1.25, "output": 5.00},
+    "gemini-2.0-flash-exp": {"input": 0.075, "output": 0.30},
+    "gemini-1.5-pro-latest": {"input": 1.25, "output": 5.00},
+    "gemini-1.5-flash-latest": {"input": 0.075, "output": 0.30},
+    "gemini-1.0-pro": {"input": 0.50, "output": 1.50}
+}
+
+# Initialize session state for cost tracking
+if 'cost_tracker' not in st.session_state:
+    st.session_state.cost_tracker = {
+        'total_input_tokens': 0,
+        'total_output_tokens': 0,
+        'total_cost': 0.0,
+        'api_calls': 0,
+        'session_start': datetime.now()
+    }
+
+# --- Cost Tracking Functions ---
+def estimate_tokens(text: str) -> int:
+    """Rough estimation: ~4 characters per token for English text."""
+    return len(text) // 4
+
+def calculate_cost(input_tokens: int, output_tokens: int, model_name: str) -> float:
+    """Calculate cost based on token usage and model pricing."""
+    if model_name not in MODEL_PRICING:
+        return 0.0
+    
+    pricing = MODEL_PRICING[model_name]
+    input_cost = (input_tokens / 1_000_000) * pricing['input']
+    output_cost = (output_tokens / 1_000_000) * pricing['output']
+    
+    return input_cost + output_cost
+
+def update_cost_tracker(input_tokens: int, output_tokens: int, model_name: str):
+    """Update the session cost tracker."""
+    cost = calculate_cost(input_tokens, output_tokens, model_name)
+    
+    st.session_state.cost_tracker['total_input_tokens'] += input_tokens
+    st.session_state.cost_tracker['total_output_tokens'] += output_tokens
+    st.session_state.cost_tracker['total_cost'] += cost
+    st.session_state.cost_tracker['api_calls'] += 1
+
+def display_cost_metrics():
+    """Display cost tracking metrics in sidebar."""
+    tracker = st.session_state.cost_tracker
+    
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("💰 Cost Tracking")
+    
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        st.metric("Total Cost", f"${tracker['total_cost']:.4f}")
+    with col2:
+        st.metric("API Calls", tracker['api_calls'])
+    
+    with st.sidebar.expander("📊 Token Usage Details"):
+        st.write(f"**Input Tokens:** {tracker['total_input_tokens']:,}")
+        st.write(f"**Output Tokens:** {tracker['total_output_tokens']:,}")
+        st.write(f"**Total Tokens:** {tracker['total_input_tokens'] + tracker['total_output_tokens']:,}")
+        
+        session_duration = (datetime.now() - tracker['session_start']).seconds // 60
+        st.write(f"**Session Duration:** {session_duration} min")
+        
+        if st.button("🔄 Reset Tracker", use_container_width=True):
+            st.session_state.cost_tracker = {
+                'total_input_tokens': 0,
+                'total_output_tokens': 0,
+                'total_cost': 0.0,
+                'api_calls': 0,
+                'session_start': datetime.now()
+            }
+            st.rerun()
 
 # --- Helper Functions ---
 def safe_api_call(func, *args, **kwargs):
@@ -82,6 +158,12 @@ def generate_test_set(context: str, num_questions: int, _model_name: str):
     
     def _generate():
         response = model.generate_content(prompt)
+        
+        # Track tokens and cost
+        input_tokens = estimate_tokens(prompt)
+        output_tokens = estimate_tokens(response.text)
+        update_cost_tracker(input_tokens, output_tokens, _model_name)
+        
         return response.text.strip()
     
     response_text = safe_api_call(_generate)
@@ -103,7 +185,7 @@ def generate_test_set(context: str, num_questions: int, _model_name: str):
             return None
     except json.JSONDecodeError as e:
         st.error(f"❌ JSON parsing error: {e}")
-        st.code(response_text[:500])  # Show first 500 chars for debugging
+        st.code(response_text[:500])
         return None
 
 def get_model_response(context: str, question: str, system_prompt: str, model_name: str):
@@ -112,6 +194,12 @@ def get_model_response(context: str, question: str, system_prompt: str, model_na
         model = genai.GenerativeModel(model_name, system_instruction=system_prompt)
         full_prompt = f"CONTEXT:\n{context}\n\nQUESTION:\n{question}"
         response = model.generate_content(full_prompt)
+        
+        # Track tokens and cost
+        input_tokens = estimate_tokens(system_prompt + full_prompt)
+        output_tokens = estimate_tokens(response.text)
+        update_cost_tracker(input_tokens, output_tokens, model_name)
+        
         return response.text.strip()
     
     result = safe_api_call(_get_response)
@@ -149,6 +237,12 @@ def evaluate_response_with_judge(question: str, ground_truth: str, model_respons
     
     def _evaluate():
         response = judge.generate_content(judge_prompt)
+        
+        # Track tokens and cost
+        input_tokens = estimate_tokens(judge_prompt)
+        output_tokens = estimate_tokens(response.text)
+        update_cost_tracker(input_tokens, output_tokens, _judge_model)
+        
         return response.text.strip()
     
     response_text = safe_api_call(_evaluate)
@@ -212,6 +306,13 @@ selected_model_name = st.sidebar.selectbox(
 )
 model_to_test = AVAILABLE_MODELS[selected_model_name]
 
+# Show pricing info
+with st.sidebar.expander("💵 Pricing Information"):
+    pricing = MODEL_PRICING.get(model_to_test, {"input": 0, "output": 0})
+    st.write(f"**{selected_model_name}**")
+    st.write(f"• Input: ${pricing['input']:.3f} per 1M tokens")
+    st.write(f"• Output: ${pricing['output']:.3f} per 1M tokens")
+
 # Context input
 st.sidebar.subheader("2. Provide Context")
 context_input = st.sidebar.text_area(
@@ -230,6 +331,12 @@ num_questions_input = st.sidebar.slider(
     help="More questions = better evaluation but slower"
 )
 
+# Estimate cost for generation
+if context_input:
+    est_tokens = estimate_tokens(context_input) * num_questions_input * 2
+    est_cost = calculate_cost(est_tokens, est_tokens, JUDGE_MODEL)
+    st.sidebar.info(f"💡 Estimated generation cost: ~${est_cost:.4f}")
+
 # Generate button
 if st.sidebar.button("🎯 Generate Test Set", type="primary", use_container_width=True):
     if context_input:
@@ -247,6 +354,9 @@ if st.sidebar.button("🎯 Generate Test Set", type="primary", use_container_wid
             st.sidebar.success(f"✅ Generated {len(st.session_state.eval_set)} questions!")
     else:
         st.sidebar.warning("⚠️ Please provide context first")
+
+# Display cost tracking
+display_cost_metrics()
 
 # Main content
 if 'eval_set' in st.session_state and st.session_state.eval_set:
@@ -267,6 +377,13 @@ if 'eval_set' in st.session_state and st.session_state.eval_set:
     
     with col2:
         st.info(f"**Testing:** {selected_model_name}\n\n**Judge:** Gemini 2.5 Pro")
+        
+        # Cost estimation for evaluation
+        if st.session_state.eval_set:
+            num_q = len(st.session_state.eval_set)
+            est_eval_tokens = estimate_tokens(context_input) * num_q * 4
+            est_eval_cost = calculate_cost(est_eval_tokens, est_eval_tokens, model_to_test)
+            st.metric("Est. Eval Cost", f"${est_eval_cost:.4f}")
     
     if st.button("🚀 Run Evaluation & Get AI Judgment", type="primary", use_container_width=True):
         progress_bar = st.progress(0, text="Starting evaluation...")
@@ -340,14 +457,16 @@ if 'eval_results' in st.session_state:
     avg_completeness = df_results['completeness'].mean()
     overall_score = (avg_consistency + avg_helpfulness + avg_relevance + avg_completeness) / 4
     
-    # Display metrics
+    # Display metrics with cost
     st.subheader("🎯 Overall Performance")
-    cols = st.columns(5)
+    cols = st.columns(6)
     cols[0].metric("Overall Score", f"{overall_score:.2f}/5", help="Average of all metrics")
     cols[1].metric("Factual Consistency", f"{avg_consistency:.2f}/5")
     cols[2].metric("Helpfulness", f"{avg_helpfulness:.2f}/5")
     cols[3].metric("Relevance", f"{avg_relevance:.2f}/5")
     cols[4].metric("Completeness", f"{avg_completeness:.2f}/5")
+    cols[5].metric("Total Cost", f"${st.session_state.cost_tracker['total_cost']:.4f}", 
+                   help="Session total cost")
     
     # Visualization
     st.subheader("📈 Score Distribution")
@@ -400,22 +519,29 @@ if 'eval_results' in st.session_state:
     st.subheader("💾 Export Results")
     col1, col2 = st.columns(2)
     
+    # Add cost data to export
+    export_data = df_results.copy()
+    export_data['session_cost'] = st.session_state.cost_tracker['total_cost']
+    export_data['total_api_calls'] = st.session_state.cost_tracker['api_calls']
+    export_data['model_tested'] = selected_model_name
+    export_data['timestamp'] = datetime.now().isoformat()
+    
     with col1:
-        csv = df_results.to_csv(index=False)
+        csv = export_data.to_csv(index=False)
         st.download_button(
             label="📥 Download as CSV",
             data=csv,
-            file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}.csv",
+            file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
             mime="text/csv",
             use_container_width=True
         )
     
     with col2:
-        json_str = df_results.to_json(orient='records', indent=2)
+        json_str = export_data.to_json(orient='records', indent=2)
         st.download_button(
             label="📥 Download as JSON",
             data=json_str,
-            file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}.json",
+            file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
             mime="application/json",
             use_container_width=True
         )
@@ -423,9 +549,10 @@ if 'eval_results' in st.session_state:
 # Footer
 st.markdown("---")
 st.markdown(
-    """
+    f"""
     <div style='text-align: center; color: #666; font-size: 0.9em;'>
-    <p>⚖️ LLM Evaluation System | Powered by Google Gemini 2.0 Flash</p>
+    <p>⚖️ LLM Evaluation System | Powered by Google Gemini 2.5 Pro</p>
+    <p>💰 Session Cost: ${st.session_state.cost_tracker['total_cost']:.4f} | API Calls: {st.session_state.cost_tracker['api_calls']}</p>
     </div>
     """,
     unsafe_allow_html=True
