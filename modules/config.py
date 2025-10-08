@@ -29,5 +29,5 @@ MODEL_PRICING = {
 DB_PATH = Path("evaluation_history.db")
 
 # API rate limiting (seconds)
-API_RATE_LIMIT = 7
+API_RATE_LIMIT = 10  # Increased from 7 to 10 for better stability
 MAX_RETRIES = 3

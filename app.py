@@ -257,7 +257,7 @@ with tab1:
         
         with col1:
             fig_radar = create_score_visualization(df_results)
-            st.plotly_chart(fig_radar, width='stretch')
+            st.plotly_chart(fig_radar, use_container_width=True, config={'displayModeBar': False})
         
         with col2:
             # Bar chart of individual scores
@@ -270,7 +270,7 @@ with tab1:
                 barmode='group'
             )
             fig_bar.update_layout(height=400)
-            st.plotly_chart(fig_bar, width='stretch')
+            st.plotly_chart(fig_bar, use_container_width=True, config={'displayModeBar': False})
         
         # Detailed results
         st.subheader("📝 Detailed Results")
@@ -368,7 +368,7 @@ with tab2:
                 markers=True
             )
             fig_trend.update_layout(height=400)
-            st.plotly_chart(fig_trend, width='stretch')
+            st.plotly_chart(fig_trend, use_container_width=True, config={'displayModeBar': False})
             
             # Cost trend
             fig_cost = px.bar(
@@ -380,7 +380,7 @@ with tab2:
                 labels={'total_cost': 'Cost ($)', 'timestamp': 'Date'}
             )
             fig_cost.update_layout(height=400)
-            st.plotly_chart(fig_cost, width='stretch')
+            st.plotly_chart(fig_cost, use_container_width=True, config={'displayModeBar': False})
         
         # History table
         st.subheader("📋 Evaluation History")

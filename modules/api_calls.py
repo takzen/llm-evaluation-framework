@@ -1,7 +1,3 @@
-"""
-API call wrappers with error handling and rate limiting.
-"""
-
 import time
 import streamlit as st
 from modules.config import API_RATE_LIMIT, MAX_RETRIES
@@ -25,12 +21,19 @@ def safe_api_call(func, *args, **kwargs):
             return func(*args, **kwargs)
         except Exception as e:
             if attempt < MAX_RETRIES - 1:
-                wait_time = (attempt + 1) * 2
-                st.warning(
-                    f"API error, retrying in {wait_time}s... "
-                    f"(Attempt {attempt + 1}/{MAX_RETRIES})"
-                )
+                wait_time = (attempt + 1) * 3  # Progressive backoff: 3s, 6s, 9s
+                # Use info instead of warning for first retry
+                if attempt == 0:
+                    st.info(
+                        f"⏳ API rate limit - waiting {wait_time}s before retry... "
+                        f"(Attempt {attempt + 1}/{MAX_RETRIES})"
+                    )
+                else:
+                    st.warning(
+                        f"⚠️ API error, retrying in {wait_time}s... "
+                        f"(Attempt {attempt + 1}/{MAX_RETRIES})"
+                    )
                 time.sleep(wait_time)
             else:
-                st.error(f"Failed after {MAX_RETRIES} attempts: {e}")
+                st.error(f"❌ Failed after {MAX_RETRIES} attempts: {e}")
                 return None
