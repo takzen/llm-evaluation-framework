@@ -204,18 +204,23 @@ plotly>=5.18.0
 ```
 
 ---
-
 ## 🗺️ Roadmap
 
-### Planned Features
-- [ ] **A/B Testing Mode**: Compare multiple prompts side-by-side
-- [x ] **Historical Tracking**: SQLite database for evaluation history
-- [ ] **Custom Metrics**: User-defined evaluation criteria
-- [ ] **Batch Processing**: Parallel API calls for faster evaluation
-- [x ] **Cost Tracking**: Monitor API usage and expenses
-- [ ] **Adversarial Testing**: Automatic generation of edge cases
-- [ ] **Multi-Model Comparison**: Evaluate multiple models simultaneously
-- [ ] **Report Generation**: Automated PDF reports with findings
+### 🚀 Coming Soon
+- [x] **Cost Tracking** - Monitor API usage and expenses
+- [ ] **A/B Testing Mode** - Compare multiple prompts side-by-side
+- [x] **Historical Tracking** - Save and compare evaluation results over time
+
+### 💡 Planned Features
+- [ ] **Custom Metrics** - Define your own evaluation criteria
+- [ ] **Batch Processing** - Faster evaluation with parallel API calls
+- [ ] **Export Enhancements** - Excel format and detailed metadata
+- [ ] **Multi-Model Comparison** - Evaluate multiple models simultaneously
+
+### 🔮 Future Ideas
+- [ ] **Adversarial Testing** - Automatic generation of edge cases
+- [ ] **Report Generation** - Automated PDF reports with findings
+- [ ] **Team Collaboration** - Multi-user evaluation sessions
 
 ---
 
