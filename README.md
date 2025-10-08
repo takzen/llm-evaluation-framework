@@ -60,6 +60,15 @@ The dashboard presents evaluation results using sophisticated **Plotly** visuali
 - **User Experience**: Clean UI with spinners, progress bars, and clear feedback
 - **Caching**: Intelligent caching to reduce API calls and improve performance
 
+### 📈 Historical Tracking & Analytics
+Store and analyze your evaluation history:
+- **SQLite Database**: Persistent storage of all evaluations
+- **Performance Trends**: Line charts showing score evolution over time
+- **Cost Analysis**: Track spending per evaluation and by model
+- **Detailed History**: Browse all past evaluations with full context
+- **Comparison Tools**: Compare different models and prompts over time
+- **Data Management**: Delete old evaluations, export history
+
 ### 💰 Real-Time Cost Tracking
 Monitor your API spending with comprehensive cost tracking:
 - **Live Token Counting**: Track input/output tokens for every API call
@@ -200,10 +209,10 @@ plotly>=5.18.0
 
 ### Planned Features
 - [ ] **A/B Testing Mode**: Compare multiple prompts side-by-side
-- [x] **Historical Tracking**: SQLite database for evaluation history
+- [x ] **Historical Tracking**: SQLite database for evaluation history
 - [ ] **Custom Metrics**: User-defined evaluation criteria
 - [ ] **Batch Processing**: Parallel API calls for faster evaluation
-- [x] **Cost Tracking**: Monitor API usage and expenses
+- [x ] **Cost Tracking**: Monitor API usage and expenses
 - [ ] **Adversarial Testing**: Automatic generation of edge cases
 - [ ] **Multi-Model Comparison**: Evaluate multiple models simultaneously
 - [ ] **Report Generation**: Automated PDF reports with findings
@@ -239,7 +248,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **Author**: [Your Name]
+- **Author**: Krzysztof Pika
 - **GitHub**: [@takzen](https://github.com/takzen)
 - **Issues**: [Report bugs or request features](https://github.com/takzen/llm-evaluation-framework/issues)
 
