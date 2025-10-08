@@ -103,6 +103,6 @@ def display_cost_metrics():
         session_duration = (datetime.now() - tracker['session_start']).seconds // 60
         st.write(f"**Session Duration:** {session_duration} min")
         
-        if st.button("🔄 Reset Tracker", use_container_width=True):
+        if st.button("🔄 Reset Tracker", width='stretch'):
             reset_cost_tracker()
             st.rerun()

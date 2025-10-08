@@ -107,7 +107,7 @@ with tab1:
         st.sidebar.info(f"💡 Estimated generation cost: ~${est_cost:.4f}")
 
     # Generate button
-    if st.sidebar.button("🎯 Generate Test Set", type="primary", use_container_width=True):
+    if st.sidebar.button("🎯 Generate Test Set", type="primary", width='stretch'):
         if context_input:
             with st.spinner("🤖 Generating evaluation questions..."):
                 st.session_state.eval_set = generate_test_set(
@@ -131,7 +131,7 @@ with tab1:
     if 'eval_set' in st.session_state and st.session_state.eval_set:
         st.header("📋 Generated Evaluation Set")
         df_eval = pd.DataFrame(st.session_state.eval_set)
-        st.dataframe(df_eval, use_container_width=True, height=300)
+        st.dataframe(df_eval, width='stretch', height=300)
         
         st.header("🧪 Run Evaluation")
         
@@ -154,7 +154,7 @@ with tab1:
                 est_eval_cost = calculate_cost(est_eval_tokens, est_eval_tokens, model_to_test)
                 st.metric("Est. Eval Cost", f"${est_eval_cost:.4f}")
         
-        if st.button("🚀 Run Evaluation & Get AI Judgment", type="primary", use_container_width=True):
+        if st.button("🚀 Run Evaluation & Get AI Judgment", type="primary", width='stretch'):
             progress_bar = st.progress(0, text="Starting evaluation...")
             results_with_judgment = []
             eval_set = st.session_state.eval_set
@@ -257,7 +257,7 @@ with tab1:
         
         with col1:
             fig_radar = create_score_visualization(df_results)
-            st.plotly_chart(fig_radar, use_container_width=True)
+            st.plotly_chart(fig_radar, width='stretch')
         
         with col2:
             # Bar chart of individual scores
@@ -270,13 +270,13 @@ with tab1:
                 barmode='group'
             )
             fig_bar.update_layout(height=400)
-            st.plotly_chart(fig_bar, use_container_width=True)
+            st.plotly_chart(fig_bar, width='stretch')
         
         # Detailed results
         st.subheader("📝 Detailed Results")
         st.dataframe(
             df_results,
-            use_container_width=True,
+            width='stretch',
             height=400,
             column_config={
                 "factual_consistency": st.column_config.NumberColumn(
@@ -316,7 +316,7 @@ with tab1:
                 data=csv,
                 file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                 mime="text/csv",
-                use_container_width=True
+                width='stretch'
             )
         
         with col2:
@@ -326,7 +326,7 @@ with tab1:
                 data=json_str,
                 file_name=f"llm_evaluation_{selected_model_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                 mime="application/json",
-                use_container_width=True
+                width='stretch'
             )
 
 # ===== TAB 2: HISTORY & ANALYTICS =====
@@ -368,7 +368,7 @@ with tab2:
                 markers=True
             )
             fig_trend.update_layout(height=400)
-            st.plotly_chart(fig_trend, use_container_width=True)
+            st.plotly_chart(fig_trend, width='stretch')
             
             # Cost trend
             fig_cost = px.bar(
@@ -380,7 +380,7 @@ with tab2:
                 labels={'total_cost': 'Cost ($)', 'timestamp': 'Date'}
             )
             fig_cost.update_layout(height=400)
-            st.plotly_chart(fig_cost, use_container_width=True)
+            st.plotly_chart(fig_cost, width='stretch')
         
         # History table
         st.subheader("📋 Evaluation History")
@@ -392,7 +392,7 @@ with tab2:
         # Display with selection
         selected_row = st.dataframe(
             history_display,
-            use_container_width=True,
+            width='stretch',
             height=400,
             column_config={
                 "overall_score": st.column_config.NumberColumn(
@@ -435,7 +435,7 @@ with tab2:
             )
         
         with col2:
-            if st.button("🗑️ Delete", type="secondary", use_container_width=True):
+            if st.button("🗑️ Delete", type="secondary", width='stretch'):
                 try:
                     delete_evaluation(eval_id)
                     st.success(f"✅ Evaluation {eval_id} deleted!")
@@ -470,7 +470,7 @@ with tab2:
                 st.dataframe(
                     eval_details[['question', 'model_response', 'factual_consistency', 
                                  'helpfulness', 'relevance', 'completeness', 'judge_reasoning']],
-                    use_container_width=True,
+                    width='stretch',
                     height=400
                 )
 
