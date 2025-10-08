@@ -200,7 +200,7 @@ plotly>=5.18.0
 
 ### Planned Features
 - [ ] **A/B Testing Mode**: Compare multiple prompts side-by-side
-- [ ] **Historical Tracking**: SQLite database for evaluation history
+- [x] **Historical Tracking**: SQLite database for evaluation history
 - [ ] **Custom Metrics**: User-defined evaluation criteria
 - [ ] **Batch Processing**: Parallel API calls for faster evaluation
 - [x] **Cost Tracking**: Monitor API usage and expenses
