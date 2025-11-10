@@ -15,6 +15,7 @@ The framework automates the entire evaluation pipeline, from generating high-qua
 ### 🎯 Why This Matters
 
 In production environments, the difference between a good and bad LLM configuration can mean:
+
 - 📉 **30-50% reduction** in hallucinations
 - 📈 **2x improvement** in user satisfaction
 - 💰 **Significant cost savings** through model optimization
@@ -25,20 +26,26 @@ In production environments, the difference between a good and bad LLM configurat
 ## ✨ Key Features & Techniques
 
 ### 🤖 Meta-AI (AI-Powered Judging)
+
 Implements a state-of-the-art evaluation strategy where a powerful "judge" LLM (`Gemini 2.5 Pro`) quantitatively scores the responses of other models. This demonstrates a deep understanding of modern LLM evaluation techniques used by companies like OpenAI, Anthropic, and Google.
 
 ### 📊 Multi-Metric Evaluation
+
 The AI judge assesses responses across four critical dimensions:
+
 - **Factual Consistency** (1-5): Alignment with ground truth
 - **Helpfulness** (1-5): Practical value to the user
 - **Relevance** (1-5): Direct answer to the question
 - **Completeness** (1-5): Sufficient detail and coverage
 
 ### 🎲 Automated Test Set Generation
+
 Users can provide any text-based context (documentation, articles, knowledge base), and the application uses a powerful LLM to automatically generate a relevant and diverse set of questions and ground-truth answers for testing.
 
 ### 🔄 Model & Prompt Benchmarking
+
 The interface allows users to select from multiple available models:
+
 - `Gemini 2.5 Pro` (Most Capable)
 - `Gemini 2.0 Flash` (Fast & Efficient)
 - `Gemini 1.5 Pro` (Balanced)
@@ -48,12 +55,15 @@ The interface allows users to select from multiple available models:
 Customize system prompts to enable direct A/B testing of different configurations.
 
 ### 📈 Advanced Data Visualization
+
 The dashboard presents evaluation results using sophisticated **Plotly** visualizations:
+
 - **Radar Chart**: High-level overview of model strengths/weaknesses
 - **Grouped Bar Charts**: Per-question breakdown of scores
 - **Summary Metrics**: Quick performance indicators
 
 ### 🛡️ Robust Engineering Practices
+
 - **API Resilience**: Implements `safe_api_call` wrapper with rate limiting and exponential backoff retry mechanism
 - **Error Handling**: Robust JSON parsing and API failure management
 - **Security**: Uses environment variables for API keys, no hardcoded secrets
@@ -61,7 +71,9 @@ The dashboard presents evaluation results using sophisticated **Plotly** visuali
 - **Caching**: Intelligent caching to reduce API calls and improve performance
 
 ### 📈 Historical Tracking & Analytics
+
 Store and analyze your evaluation history:
+
 - **SQLite Database**: Persistent storage of all evaluations
 - **Performance Trends**: Line charts showing score evolution over time
 - **Cost Analysis**: Track spending per evaluation and by model
@@ -70,7 +82,9 @@ Store and analyze your evaluation history:
 - **Data Management**: Delete old evaluations, export history
 
 ### 💰 Real-Time Cost Tracking
+
 Monitor your API spending with comprehensive cost tracking:
+
 - **Live Token Counting**: Track input/output tokens for every API call
 - **Cost Calculation**: Automatic cost computation based on Gemini pricing
 - **Cost Estimation**: Preview estimated costs before running evaluations
@@ -78,7 +92,9 @@ Monitor your API spending with comprehensive cost tracking:
 - **Export Integration**: Include cost data in CSV/JSON exports for budgeting
 
 ### 💾 Data Export
+
 Download detailed evaluation results as **CSV** or **JSON** for:
+
 - Statistical analysis in Python/R
 - Reporting and presentations
 - Long-term performance tracking
@@ -90,6 +106,7 @@ Download detailed evaluation results as **CSV** or **JSON** for:
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
+
 - Python 3.11 or higher
 - Google AI API key ([Get one here](https://aistudio.google.com/app/apikey))
 - `uv` package manager (recommended) or `pip`
@@ -97,32 +114,37 @@ Download detailed evaluation results as **CSV** or **JSON** for:
 ### Quick Start
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/takzen/llm-evaluation-framework.git
    cd llm-evaluation-framework
    ```
 
 2. **Set up your Google AI API Key:**
+
    ```bash
    # Create .env file
    echo "GOOGLE_API_KEY=your_api_key_here" > .env
    ```
-   
+
    Or manually create a `.env` file with:
+
    ```
    GOOGLE_API_KEY="YOUR_API_KEY_HERE"
    ```
 
 3. **Install dependencies:**
-   
+
    **Using `uv` (recommended):**
+
    ```bash
    uv venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    uv pip install -r requirements.txt
    ```
-   
+
    **Using `pip`:**
+
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
@@ -130,10 +152,11 @@ Download detailed evaluation results as **CSV** or **JSON** for:
    ```
 
 4. **Run the application:**
+
    ```bash
    streamlit run app.py
    ```
-   
+
    The application will open automatically in your default browser at `http://localhost:8501`
 
 ---
@@ -143,23 +166,28 @@ Download detailed evaluation results as **CSV** or **JSON** for:
 ### Step-by-Step Workflow
 
 1. **Provide Context** (Sidebar)
+
    - Paste any text: documentation, articles, knowledge base content
    - This forms the basis for question generation and evaluation
 
 2. **Configure Parameters** (Sidebar)
+
    - Select model to test (e.g., Gemini 2.5 Pro)
    - Choose number of questions (3-20)
    - Click "Generate Test Set"
 
 3. **Review Test Set** (Main Area)
+
    - Examine generated questions and ground truth answers
    - Ensure quality and relevance
 
 4. **Customize System Prompt** (Main Area)
+
    - Define how the model should behave
    - Examples: "Be concise", "Provide step-by-step explanations"
 
 5. **Run Evaluation** (Main Area)
+
    - Click "Run Evaluation & Get AI Judgment"
    - Wait for progress bar (may take 1-2 minutes)
 
@@ -181,15 +209,15 @@ Download detailed evaluation results as **CSV** or **JSON** for:
 
 The application provides a seamless, step-by-step workflow for comprehensive LLM evaluation.
 
-| **Step 1: Initial State** | **Step 2: Test Set Generation** |
-| :---: | :---: |
-| ![Initial State](images/01_initial_state.png) | ![Test Set Generation](images/02_test_set_generation.png) |
-| *Clean interface ready for configuration in the sidebar.* | *High-quality test set automatically generated from context.* |
+|                 **Step 1: Initial State**                 |                **Step 2: Test Set Generation**                |
+| :-------------------------------------------------------: | :-----------------------------------------------------------: |
+|      ![Initial State](images/01_initial_state.webp)       |  ![Test Set Generation](images/02_test_set_generation.webp)   |
+| _Clean interface ready for configuration in the sidebar._ | _High-quality test set automatically generated from context._ |
 
-| **Step 3: Evaluation Dashboard** | **Step 4: Detailed Results & Export** |
-| :---: | :---: |
-| ![Evaluation Dashboard](images/03_evaluation_dashboard.png) | ![Detailed Results](images/04_detailed_results_and_export.png) |
-| *Summary metrics with interactive radar chart visualization.* | *Detailed per-question scores with AI judge reasoning and export options.* |
+|               **Step 3: Evaluation Dashboard**                |                   **Step 4: Detailed Results & Export**                    |
+| :-----------------------------------------------------------: | :------------------------------------------------------------------------: |
+| ![Evaluation Dashboard](images/03_evaluation_dashboard.webp)  |      ![Detailed Results](images/04_detailed_results_and_export.webp)       |
+| _Summary metrics with interactive radar chart visualization._ | _Detailed per-question scores with AI judge reasoning and export options._ |
 
 ---
 
@@ -204,20 +232,24 @@ plotly>=5.18.0
 ```
 
 ---
+
 ## 🗺️ Roadmap
 
 ### 🚀 Coming Soon
+
 - [x] **Cost Tracking** - Monitor API usage and expenses
 - [ ] **A/B Testing Mode** - Compare multiple prompts side-by-side
 - [x] **Historical Tracking** - Save and compare evaluation results over time
 
 ### 💡 Planned Features
+
 - [ ] **Custom Metrics** - Define your own evaluation criteria
 - [ ] **Batch Processing** - Faster evaluation with parallel API calls
 - [ ] **Export Enhancements** - Excel format and detailed metadata
 - [ ] **Multi-Model Comparison** - Evaluate multiple models simultaneously
 
 ### 🔮 Future Ideas
+
 - [ ] **Adversarial Testing** - Automatic generation of edge cases
 - [ ] **Report Generation** - Automated PDF reports with findings
 - [ ] **Team Collaboration** - Multi-user evaluation sessions
